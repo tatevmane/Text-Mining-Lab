@@ -1,0 +1,144 @@
+---
+title: "Text Mining Lab"
+author: "Tatev Gomtsyan"
+date: "10/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=TRUE}
+library(tidyverse)
+#install.packages("tidytext")
+library(tidytext)
+#install.packages("ggwordcloud")
+library(ggwordcloud)
+#install.packages("gutenbergr") 
+library(gutenbergr)
+#install.packages('textdata')
+library(textdata)
+save.image("tidytext.RData")
+
+```
+
+<!--We chose to divide our project into 3 parts: west coast, mid-US, and east coast. For the west coast, we chose to focus on California, and specifically the LA times as our publisher. For the mid-US, we chose to focus on Iowa. For east coast, our main focus will be New york. We will include 10 documents per publisher (corpus) in our lab in order to gain more accurate and useful knowledge. The documents were all written in the 2000-2021 timeframe. The goal is to find out how the different regions differ in their mentality and attitude towards climate change. This will be done through text mining and analysis. --> 
+
+```{r}
+#Corpus 1
+#reading in the documents for the west coast
+#focusing on California and LA times perspective on Climate change 
+#10 documents 
+
+LA_times1 <- read_lines("C:\\Users\\Student\\Downloads\\Climate change is supercharging California heat waves_.PDF")
+
+LA_times2 <- read_lines("C:\\Users\\Student\\Downloads\\BUSINESS_ A reminder of fossil fuels_ many harms_ O.C.PDF")
+
+LA_times3 <- read_lines("C:\\Users\\Student\\Downloads\\Editorial_ Climate change is fueling extreme heat. Cali.PDF")
+
+LA_times4 <- read_lines("C:\\Users\\Student\\Downloads\\Letters to the Editor_ Climate change threatens sequoia.PDF")
+
+LA_times5 <- read_lines("C:\\Users\\Student\\Downloads\\Op-Ed_ For a generation born into climate change_ hope.PDF")
+
+LA_times6 <- read_lines("C:\\Users\\Student\\Downloads\\Column_ If you_re a coffee drinker_ you really need to.PDF")
+
+LA_times7 <- read_lines("C:\\Users\\Student\\Downloads\\Fan of national parks_ Get ready for them to heat up_ C.PDF")
+
+LA_times8 <- read_lines("C:\\Users\\Student\\Downloads\\Letters to the Editor_ Parents_ you must scream as loud.PDF")
+
+LA_times9 <- read_lines("C:\\Users\\Student\\Downloads\\Newsom signs _15-billion package to fight climate chang.PDF")
+
+LA_times10 <- read_lines("C:\\Users\\Student\\Downloads\\Biden urges passage of legislation to combat climate ch.PDF")
+```
+
+```{r}
+#not sure if we have to do this process for each document, but here's the outline
+
+west_coast <- c(LA_times1, LA_times2, LA_times3, LA_times4, LA_times5, LA_times6, LA_times7, LA_times8, LA_times9, LA_times10 )
+
+check_special <- grepl('[^[:alnum:]]', west_coast)
+special_char_index <- match(c(TRUE),check_special)
+View(special_char_index)
+
+west_coast <- tibble(west_coast)
+View(west_coast)
+
+west_coast$west_coast <- as.character(west_coast$west_coast)
+
+View(west_coast)
+
+west_coast <- west_coast %>%
+  unnest_tokens(word, west_coast)%>%
+  anti_join(stop_words)%>% 
+  count(word, sort=TRUE)
+
+View(west_coast)
+
+
+
+```
+
+```{r}
+#Corpus 2
+#reading in the documents for the mid-US 
+#focusing on Iowa as our state. Publisher is the newspaper Telegraph Herald.
+#10 documents 
+
+TH_1 <- read_lines("C:\\Users\\Student\\Downloads\\U.N._ Climate change_ biodiversity loss are intertwined.PDF")
+
+TH_2 <- read_lines("C:\\Users\\Student\\Downloads\\From climate change to climate action.PDF")
+
+TH_3 <- read_lines("C:\\Users\\Student\\Downloads\\Climate-change report distorts science_ Complex_ Scient.PDF")
+
+TH_4 <- read_lines("C:\\Users\\Student\\Downloads\\Trump says climate change is not a hoax.PDF")
+
+TH_5 <- read_lines("C:\\Users\\Student\\Downloads\\Why climate change is making it harder to chase fall fo.PDF")
+
+TH_6 <- read_lines("C:\\Users\\Student\\Downloads\\Lawmakers must look to the future_ take action on clima.PDF")
+
+TH_7 <- read_lines("C:\\Users\\Student\\Downloads\\Report_ Climate change could force 200 million to move.PDF")
+
+TH_8 <- read_lines("C:\\Users\\Student\\Downloads\\Climate change_s instructive past.PDF")
+
+TH_9 <- read_lines("C:\\Users\\Student\\Downloads\\Under Trump_ climate change not a security threat.PDF")
+
+TH_10 <- read_lines("C:\\Users\\Student\\Downloads\\UN report warns of global water crisis amid climate cha.PDF")
+```
+
+```{r}
+#Corpus 3
+#reading in the documents for the east coast
+#focusing on New York as our state. Publisher is New York Times
+#10 documents 
+
+NY_times1 <- read_lines("C:\\Users\\Student\\Downloads\\_Adapt or Die__ U.K. Environment Agency Warns on Climat.PDF")
+
+NY_times2 <- read_lines("C:\\Users\\Student\\Downloads\\The Science of Climate Change Explained_ Facts_ Evidenc.PDF")
+
+NY_times3 <- read_lines("C:\\Users\\Student\\Downloads\\How Six U.S. Agencies Are Bracing for Climate Change.PDF")
+
+NY_times4 <- read_lines("C:\\Users\\Student\\Downloads\\6 Aspects of American Life Threatened by Climate Change.PDF")
+
+NY_times5 <- read_lines("C:\\Users\\Student\\Downloads\\How the Animal World Is Adapting to Climate Change_ Non.PDF")
+
+NY_times6 <- read_lines("C:\\Users\\Student\\Downloads\\Fossil-Fuel Use May Peak Soon_ but Perils of Climate Ch.PDF")
+
+NY_times7 <- read_lines("C:\\Users\\Student\\Downloads\\Foundational Work to Grasp Humanity_s Role in Changing.PDF")
+
+NY_times8 <- read_lines("C:\\Users\\Student\\Downloads\\Nobel Prize in Physics Awarded for Study of Humanity_s.PDF")
+
+NY_times9 <- read_lines("C:\\Users\\Student\\Downloads\\Climate Change Is Destroying My Country. The Nations Ca.PDF")
+
+NY_times10 <- read_lines("C:\\Users\\Student\\Downloads\\Ida Flooding Deaths Push Council to Demand Climate Chan.PDF")
+```
+
+```{r}
+#run sentiment analysis with each newspaper serving as a corpus and then compare the level of positive or negative connotation associated with the outcomes
+```
+
+```{r}
+#work through tf-idf on each corpus (newspapers) and compare the differences between the distribution
+```
+
+
